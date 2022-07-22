@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/@idm/*"
+  ],
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "name": "idm-modules",
+  "devDependencies": {
+    "lerna": "^5.1.8"
+  }
+}
