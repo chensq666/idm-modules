@@ -1,0 +1,17 @@
+{
+  "name": "@idm-modules/types",
+  "version": "1.0.3",
+  "description": "",
+  "files": [
+    "IDM"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "types": "./index.d.ts",
+  "devDependencies": {
+    "@types/axios": "^0.14.0"
+  }
+}
