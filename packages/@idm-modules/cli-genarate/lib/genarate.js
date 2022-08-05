@@ -111,7 +111,7 @@ async function init(comLangue) {
             name: 'comType',
             message: `Please choose the IDM component's comType`,
             default: 'common',
-            choices: ['common', 'layout']
+            choices: ['common', 'dialog']
         }
     ]
 

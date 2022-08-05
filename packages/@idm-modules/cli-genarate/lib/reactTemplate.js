@@ -4,7 +4,7 @@ import { Button } from 'idm-react-antd'
 import { commonParam } from '../utils/componentUtils'
 interface IState extends IDMCommonState {}
 class ${className} extends Component<IDMCommonProp, IState> {
-constructor(rootProps) {
+constructor(rootProps: IDMCommonProp | Readonly<IDMCommonProp>) {
     super(rootProps)
     this.state = {
         propData: {
@@ -12,7 +12,7 @@ constructor(rootProps) {
         }
     }
 }
-setContextValue(object) {
+setContextValue(object: { type: string }) {
     console.log('统一接口设置的值', object)
     if (object.type !== 'pageCommonInterface') {
         return
@@ -21,7 +21,7 @@ setContextValue(object) {
 /**
  * 通用的获取表达式匹配后的结果
  */
-getExpressData(dataName, dataFiled, resultData) {
+getExpressData(dataName: string | number, dataFiled: any, resultData: any) {
     //给defaultValue设置dataFiled的值
     var _defaultVal: any = undefined
     if (dataFiled) {
@@ -188,7 +188,7 @@ initData() {}
 /**
  * 提供父级组件调用的刷新prop数据组件
  */
-propDataWatchHandle(propData) {
+propDataWatchHandle(propData: any) {
     // setState是异步， 其他操作要放在回调里，避免initData内数据不同步
     this.setState({ propData }, () => {
         this.convertAttrToStyleObject()
@@ -204,7 +204,7 @@ propDataWatchHandle(propData) {
  *  isAcross:如果为true则代表发送来源是其他页面的组件，默认为false
  * } object
  */
-receiveBroadcastMessage(object) {
+receiveBroadcastMessage(object: any) {
     console.log('收到消息  --- > ' + object)
 }
 
