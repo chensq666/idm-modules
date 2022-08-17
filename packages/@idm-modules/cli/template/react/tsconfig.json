@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "useDefineForClassFields": true,
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "module": "ESNext",
+        "allowJs": false,
+        "jsx": "react-jsx",
+        "outDir": "build",
+        "strict": true,
+        "noImplicitAny": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "Node",
+        "resolveJsonModule": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "esModuleInterop": true
+    },
+    "include": ["src", "types"]
+}

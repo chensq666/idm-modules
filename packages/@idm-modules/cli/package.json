@@ -1,0 +1,32 @@
+{
+  "name": "@idm-modules/cli",
+  "version": "1.0.0",
+  "description": "Command line interface for rapid IDM development",
+  "bin": {
+    "idm": "bin/idm.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/web-csq/idm-modules.git",
+    "directory": "packages/@idm-module/cli"
+  },
+  "keywords": [
+    "idm",
+    "cli"
+  ],
+  "author": "Jack Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vuejs/vue-cli/issues"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^7.2.0",
+    "inquirer": "^8.2.4",
+    "validate-npm-package-name": "^3.0.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": "^12.0.0 || >= 14.0.0"
+  }
+}
