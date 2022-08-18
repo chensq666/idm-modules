@@ -1,11 +1,21 @@
 'use strict'
 const chalk = require('chalk')
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs-extra')
+const os = require('os')
 const inquirer = require('inquirer')
 const { scaffoldList, vueUI, reactUI } = require('./promptList')
 const validateProjectName = require('validate-npm-package-name')
+const { addPlugin } = require('./addPlugin')
+const download = require('download-git-repo')
 const resolve = (dirName) => path.resolve(__dirname, dirName)
+const ora = require('ora')
+const templateUrl = {
+    vue: 'github:yunit-code/idm-module-vue',
+    react: 'github:web-csq/idm-module-react'
+}
+const consoleYellow = (text) => console.log(chalk.yellow(text))
+const consoleGreen = (text) => console.log(chalk.green(text))
 module.exports = async (projectName, options) => {
     const cwd = options.cwd || process.cwd()
     const inCurrent = projectName === '.'
@@ -42,7 +52,38 @@ module.exports = async (projectName, options) => {
     }
     const answer2 = await inquirer.prompt(promptUI)
 
-    const templatePath = resolve(`../template/${answer1.scaffold}`)
-
-    
+    fs.mkdirsSync(targetDir)
+    consoleYellow(`----> Start download idm's ${answer1.scaffold} scaffold  template template `)
+    const spinner = ora('Downloading template ...').start();
+    spinner.color = 'yellow';
+	spinner.text = `Downloading ...`;
+    spinner.start()
+    download(templateUrl[answer1.scaffold], targetDir, { clone: false }, (err) => {
+        if(err) throw err
+        spinner.stop()
+        consoleGreen('Template has download success !')
+        const projectPackPath = path.resolve(targetDir + '/package.json')
+        const jsonObj = require(projectPackPath)
+        jsonObj.name = projectName
+        if (answer2.ui !== 'none') {
+            consoleYellow(`----> Start add ${answer2.ui} plugin `)
+            // 合并dependencies
+            const uiPackage = require(`../frameworks/${answer2.ui}/package.json`)
+            jsonObj.dependencies = { ...jsonObj.dependencies, ...uiPackage.dependencies }
+            switch (answer2.ui) {
+                case 'idm-react-antd':
+                    jsonObj.babel['plugins'] = [
+                        ['import', { libraryName: 'idm-react-antd', libraryDirectory: 'lib', style: 'css' }]
+                    ]
+            }
+            addPlugin({
+                targetDir,
+                mainFileName: answer1.scaffold === 'vue' ? 'main.js': 'index.ts',
+                pluginName: answer2.ui
+            })
+            consoleGreen(`Plugin add success !`)
+        }
+        const jsonConfigStr = JSON.stringify(jsonObj, null, 2) + os.EOL
+        fs.writeFileSync(projectPackPath, jsonConfigStr)
+    })
 }

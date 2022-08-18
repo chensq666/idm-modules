@@ -1,5 +1,11 @@
 import config from '../../public/static/config.json';
 import Vue from 'vue'
+
+
+
+class VueRegister {
+    
+}
 //闭包方法
 (() => {
     //这里把classId+@+version作为入口方法名（组件的包名）

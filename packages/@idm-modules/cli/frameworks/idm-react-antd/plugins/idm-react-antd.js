@@ -1,0 +1,1 @@
+import "idm-react-antd/lib/style/index.css";

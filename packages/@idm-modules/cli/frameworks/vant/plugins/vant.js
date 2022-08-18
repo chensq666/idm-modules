@@ -1,4 +1,4 @@
 import Vue from 'vue'
-import Vant from 'vant'
-
-Vue.use(Vant)
+import Button from 'vant/lib/button';
+import 'vant/lib/button/style';
+Vue.use(Button)
