@@ -8,8 +8,9 @@ const { scaffoldList, vueUI, reactUI } = require('./promptList')
 const validateProjectName = require('validate-npm-package-name')
 const { addPlugin } = require('./addPlugin')
 const download = require('download-git-repo')
-const resolve = (dirName) => path.resolve(__dirname, dirName)
+const exec = require('child_process').exec
 const ora = require('ora')
+const { printParent } = require('./parten')
 const templateUrl = {
     vue: 'github:yunit-code/idm-module-vue',
     react: 'github:web-csq/idm-module-react'
@@ -53,8 +54,9 @@ module.exports = async (projectName, options) => {
     const answer2 = await inquirer.prompt(promptUI)
 
     fs.mkdirsSync(targetDir)
+    printParent()
     consoleYellow(`----> Start download idm's ${answer1.scaffold} scaffold  template template `)
-    const spinner = ora('Downloading template ...').start();
+    let spinner = ora('Downloading template ...').start();
     spinner.color = 'yellow';
 	spinner.text = `Downloading ...`;
     spinner.start()
@@ -85,5 +87,19 @@ module.exports = async (projectName, options) => {
         }
         const jsonConfigStr = JSON.stringify(jsonObj, null, 2) + os.EOL
         fs.writeFileSync(projectPackPath, jsonConfigStr)
+        // exec('cd '+targetDir, { encoding:'utf-8'}, (err, stdout, stderr) => {
+        //     console.log(err, err, stdout, stderr)
+        // })
+        
+        consoleYellow(`----> cnpm i`)
+        spinner = ora('cnpm i ...').start();
+        spinner.color = 'yellow';
+        spinner.text = `cnpm i ...`;
+        spinner.start()
+        exec('cnpm i', {cwd: targetDir, encoding:'utf-8'}, (err, stdout, stderr) => {
+            if(err) throw err
+            spinner.stop()
+            consoleGreen(`cnpm i complete`)
+        });
     })
 }

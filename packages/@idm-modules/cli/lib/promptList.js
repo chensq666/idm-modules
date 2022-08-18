@@ -2,7 +2,7 @@ module.exports = {
     scaffoldList: [{
         type: 'list',
         name: 'scaffold',
-        message: `Please choose the IDM component's development scaffold`,
+        message: `Please choose a IDM component's development scaffold`,
         default: 'vue',
         choices: ['vue', 'react']
     }],

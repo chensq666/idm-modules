@@ -14,6 +14,5 @@ module.exports = {
         let mainFile = fs.readFileSync(mainFilePath, 'utf8')
         const pluginImport = `import './plugins/${options.pluginName}.js'\r\n`
         fs.writeFileSync(mainFilePath, pluginImport + mainFile, 'utf8')
-
     }
 }
