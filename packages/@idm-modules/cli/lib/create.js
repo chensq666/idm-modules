@@ -55,7 +55,6 @@ module.exports = async (projectName, options) => {
 
     fs.mkdirsSync(targetDir)
     printParent()
-    return
     consoleYellow(`----> Start download idm's ${answer1.scaffold} scaffold template `)
     let spinner = ora('Downloading template ...').start();
     spinner.color = 'yellow';
