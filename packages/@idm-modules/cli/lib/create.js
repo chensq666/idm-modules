@@ -55,7 +55,8 @@ module.exports = async (projectName, options) => {
 
     fs.mkdirsSync(targetDir)
     printParent()
-    consoleYellow(`----> Start download idm's ${answer1.scaffold} scaffold  template template `)
+    return
+    consoleYellow(`----> Start download idm's ${answer1.scaffold} scaffold template `)
     let spinner = ora('Downloading template ...').start();
     spinner.color = 'yellow';
 	spinner.text = `Downloading ...`;
@@ -87,10 +88,6 @@ module.exports = async (projectName, options) => {
         }
         const jsonConfigStr = JSON.stringify(jsonObj, null, 2) + os.EOL
         fs.writeFileSync(projectPackPath, jsonConfigStr)
-        // exec('cd '+targetDir, { encoding:'utf-8'}, (err, stdout, stderr) => {
-        //     console.log(err, err, stdout, stderr)
-        // })
-        
         consoleYellow(`----> cnpm i`)
         spinner = ora('cnpm i ...').start();
         spinner.color = 'yellow';
