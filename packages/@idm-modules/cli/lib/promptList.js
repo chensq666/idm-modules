@@ -9,7 +9,7 @@ module.exports = {
     vueUI: [
         {
             name: 'ui',
-            message: 'UI framework:',
+            message: 'Which UI framework do you want to use',
             type: 'list',
             choices: [
                 { name: 'None', value: 'none' },
@@ -23,7 +23,7 @@ module.exports = {
     reactUI: [
         {
             name: 'ui',
-            message: 'UI framework:',
+            message: 'Which UI framework do you want to use',
             type: 'list',
             choices: [
                 { name: 'None', value: 'none' },

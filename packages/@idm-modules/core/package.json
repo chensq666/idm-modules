@@ -1,13 +1,13 @@
 {
   "name": "@idm-modules/core",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "For idm modules core",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/web-csq/idm-modules.git",
     "directory": "packages/@idm-module/cli"
   },
-  "main": "index.js",
+  "main": "",
   "keywords": [
     "idm",
     "cli"
