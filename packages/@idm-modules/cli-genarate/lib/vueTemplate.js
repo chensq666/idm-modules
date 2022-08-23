@@ -2,10 +2,7 @@ module.exports = (className) => {
     return `<template>
     <div idm-ctrl="idm_module"
     :id="moduleObject.id" 
-    :idm-ctrl-id="moduleObject.id" 
-    :title="propData.htmlTitle?propData.fontContent:''" 
-    v-show="propData.defaultStatus!='hidden'" 
-    @click="textClickHandle">
+    :idm-ctrl-id="moduleObject.id">
      <!--
        组件内部容器
        增加class="drag_container" 必选
