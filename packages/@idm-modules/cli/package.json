@@ -1,10 +1,15 @@
 {
   "name": "@idm-modules/cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Command line interface for rapid IDM development",
   "bin": {
     "idm": "bin/idm.js"
   },
+  "files": [
+    "bin",
+    "lib",
+    "frameworks"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/web-csq/idm-modules.git",
