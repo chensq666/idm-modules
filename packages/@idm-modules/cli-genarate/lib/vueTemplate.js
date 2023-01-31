@@ -3,12 +3,6 @@ module.exports = (className) => {
     <div idm-ctrl="idm_module"
     :id="moduleObject.id" 
     :idm-ctrl-id="moduleObject.id">
-     <!--
-       组件内部容器
-       增加class="drag_container" 必选
-       idm-ctrl-id：组件的id，这个必须不能为空
-       idm-container-index  组件的内部容器索引，不重复唯一且不变，必选
-     -->
      {{propData.fontContent}}
    </div>
 </template>
@@ -94,6 +88,43 @@ methods: {
             }
             break;
         }
+      },
+      getExpressData(dataName, dataFiled, resultData) {
+        //给defaultValue设置dataFiled的值
+        var _defaultVal = undefined;
+        if (dataFiled) {
+          var filedExp = dataFiled;
+          filedExp = dataName + (filedExp.startsWiths("[") ? "" : ".") + filedExp;
+          var dataObject = { IDM: window.IDM };
+          dataObject[dataName] = resultData;
+          _defaultVal = window.IDM.express.replace.call(
+            this,
+            "@[" + filedExp + "]",
+            dataObject
+          );
+        }
+        //对结果进行再次函数自定义
+        if (
+          this.propData.customFunction &&
+          this.propData.customFunction.length > 0
+        ) {
+          var params = this.commonParam();
+          var resValue = "";
+          try {
+            resValue =
+              window[this.propData.customFunction[0].name] &&
+              window[this.propData.customFunction[0].name].call(this, {
+                ...params,
+                ...this.propData.customFunction[0].param,
+                moduleObject: this.moduleObject,
+                expressData: _defaultVal,
+                interfaceData: resultData,
+              });
+          } catch (error) {}
+          _defaultVal = resValue;
+        }
+  
+        return _defaultVal;
       },
       receiveBroadcastMessage(object){
         console.log("组件收到消息",object)
