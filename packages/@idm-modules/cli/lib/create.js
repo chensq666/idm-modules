@@ -1,5 +1,5 @@
 'use strict'
-const chalk = require('chalk')
+const IDMLog = require('../utils/console')
 const path = require('path')
 const fs = require('fs-extra')
 const os = require('os')
@@ -15,8 +15,6 @@ const templateUrl = {
     vue: 'github:yunit-code/idm-module-vue',
     react: 'github:web-csq/idm-module-react'
 }
-const consoleYellow = (text) => console.log(chalk.yellow(text))
-const consoleGreen = (text) => console.log(chalk.green(text))
 module.exports = async (projectName, options) => {
     const cwd = options.cwd || process.cwd()
     const inCurrent = projectName === '.'
@@ -25,22 +23,20 @@ module.exports = async (projectName, options) => {
 
     const result = validateProjectName(name)
     if (!result.validForNewPackages) {
-        console.error(chalk.red(`Invalid project name: "${name}"`))
+        IDMLog.error(`Invalid project name: "${name}"`)
         result.errors &&
             result.errors.forEach((err) => {
-                console.error(chalk.red.dim('Error: ' + err))
+                IDMLog.error('Error: ' + err)
             })
         result.warnings &&
             result.warnings.forEach((warn) => {
-                console.error(chalk.red.dim('Warning: ' + warn))
+                IDMLog.error('Warning: ' + warn)
             })
         process.exit(1)
     }
 
     if (fs.existsSync(targetDir)) {
-        console.error(
-            chalk.red(`Could not create project in ${chalk.bold(targetDir)} because the directory is exists.`)
-        )
+        IDMLog.error(`Could not create project in ${chalk.bold(targetDir)} because the directory is exists.`)
         process.exit(1)
     }
 
@@ -55,7 +51,7 @@ module.exports = async (projectName, options) => {
 
     fs.mkdirsSync(targetDir)
     printParent()
-    consoleYellow(`----> Start download idm's ${answer1.scaffold} scaffold template `)
+    IDMLog.consoleY(`----> Start download idm's ${answer1.scaffold} scaffold template `)
     let spinner = ora('Downloading template ...').start();
     spinner.color = 'yellow';
 	spinner.text = `Downloading ...`;
@@ -63,12 +59,12 @@ module.exports = async (projectName, options) => {
     download(templateUrl[answer1.scaffold], targetDir, { clone: false }, (err) => {
         if(err) throw err
         spinner.stop()
-        consoleGreen('Template has download success !')
+        IDMLog.consoleG('Template has download success !')
         const projectPackPath = path.resolve(targetDir + '/package.json')
         const jsonObj = require(projectPackPath)
         jsonObj.name = projectName
         if (answer2.ui !== 'none') {
-            consoleYellow(`----> Start add ${answer2.ui} plugin `)
+            IDMLog.consoleY(`----> Start add ${answer2.ui} plugin `)
             // 合并dependencies
             const uiPackage = require(`../frameworks/${answer2.ui}/package.json`)
             jsonObj.dependencies = { ...jsonObj.dependencies, ...uiPackage.dependencies }
@@ -83,11 +79,11 @@ module.exports = async (projectName, options) => {
                 mainFileName: answer1.scaffold === 'vue' ? 'main.js': 'index.ts',
                 pluginName: answer2.ui
             })
-            consoleGreen(`Plugin add success !`)
+            IDMLog.consoleG(`Plugin add success !`)
         }
         const jsonConfigStr = JSON.stringify(jsonObj, null, 2) + os.EOL
         fs.writeFileSync(projectPackPath, jsonConfigStr)
-        consoleYellow(`----> cnpm i`)
+        IDMLog.consoleY(`----> cnpm i`)
         spinner = ora('cnpm i ...').start();
         spinner.color = 'yellow';
         spinner.text = `cnpm i ...`;
@@ -95,7 +91,7 @@ module.exports = async (projectName, options) => {
         exec('cnpm i', {cwd: targetDir, encoding:'utf-8'}, (err, stdout, stderr) => {
             if(err) throw err
             spinner.stop()
-            consoleGreen(`cnpm i complete`)
+            IDMLog.consoleG(`cnpm i complete`)
         });
     })
 }
