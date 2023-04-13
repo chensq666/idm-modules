@@ -33,9 +33,9 @@ function resolveComponentAttr(res, arr, level, index) {
 				res.push(multiple)
 			}
 			if(['radio'].includes(item.type)) {
-				let dictionaryArr = ['- 选项'];
+				let dictionaryArr = ['- 选项 \r'];
 				item.dictionary.map(it => {
-					dictionaryArr.push(`\t - ${it.label}【${it.value}】`)
+					dictionaryArr.push(`\t - ${it.label}【${it.value}】\r`)
 				})
 				const dictionary = dictionaryArr.join('')
 				res.push(dictionary)
