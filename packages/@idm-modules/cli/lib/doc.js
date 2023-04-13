@@ -13,27 +13,34 @@ function getComponentJson(className) {
 	}
 	return fs.readFileSync(jsonPath, 'utf-8')
 }
+function getDetailValue(defaultValue) {
+	
+	if(defaultValue === undefined || defaultValue === '') return '空'
+	if(['boolean', 'number', 'string'].includes(typeof defaultValue)) return '`' + defaultValue + '`'
+	// console.log(defaultValue)
+	return `\r\`\`\`json\r${ JSON.stringify(defaultValue, null, 4)}\r\`\`\``
+}
 function resolveComponentAttr(res, arr, level, index) {
 	arr.forEach(item => {
 		if (item.type != 'group') {
 			const str = `${level[index]} ${item.text}【${item.bindKey}】`;
 			const desc = item.desc || '';
 			const biaoShi = `- 标识：\`${item.bindKey}\``;
-			const moRenZhi = `- 默认值：${item.default ? item.default : '空'}`;
+			const moRenZhi = `- 默认值：${getDetailValue(item.default)}`;
 			res.push(str)
 			res.push(desc)
 			res.push(biaoShi)
 			res.push(moRenZhi)
 			if(item.display !== undefined) {
-				const display = `- 显示：${item.display}`;
-				res.push(display);
+				const display = `- 显示：\`${item.display}`;
+				res.push(display + '`');
 			}
 			if(item.type == 'actionSelect') {
 				const multiple = item.multiple ? '- 可设置函数数量：多个' : '- 可设置函数数量：单个';
 				res.push(multiple)
 			}
 			if(['radio'].includes(item.type)) {
-				let dictionaryArr = ['- 选项 \r'];
+				let dictionaryArr = ['- 选项：\r'];
 				item.dictionary.map(it => {
 					dictionaryArr.push(`\t - ${it.label}【${it.value}】\r`)
 				})
