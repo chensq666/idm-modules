@@ -39,7 +39,7 @@ function resolveComponentAttr(res, arr, level, index) {
 				const multiple = item.multiple ? '- 可设置函数数量：多个' : '- 可设置函数数量：单个';
 				res.push(multiple)
 			}
-			if(['radio'].includes(item.type)) {
+			if(['radio', 'select'].includes(item.type)) {
 				let dictionaryArr = ['- 选项：\r'];
 				item.dictionary.map(it => {
 					dictionaryArr.push(`\t - ${it.label}【${it.value}】\r`)
@@ -66,7 +66,7 @@ function generateMd(mdPath, jsonContent) {
 	let arr = fileContentJson.compositeAttr || [];
 	let init = [
 		`# ${fileContentJson.comName || '组件中文名'}`,
-		'组件描述',
+		`此组件是${fileContentJson.comName}，这里是组件简介`,
 		`## 组件类ID（${fileContentJson.className}）`,
 		fileContentJson.classId,
 		'## 组件开发语言（comLangue）',
