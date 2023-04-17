@@ -58,8 +58,7 @@ export class ReactRegister {
                                 // 挂载完成通知idm
                                 moduleObject.mountComplete && moduleObject.mountComplete(moduleObject)
                                 // 预览时数据传入
-                                const propData = moduleObject.props && moduleObject.props.compositeAttr
-                                if (propData) childCom.current.propDataWatchHandle(propData)
+                                childCom.current.propDataWatchHandle(moduleObject.props && moduleObject.props.compositeAttr || {})
                             }, [])
                             return createElement(this.componentsMap.get(moduleObject.className || this.comClassName), {
                                 ...moduleObject,
