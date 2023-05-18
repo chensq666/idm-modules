@@ -1,19 +1,19 @@
 import Vue from 'vue'
+let configJsonData = null
 export class VueRegister {
-    configJsonData = null
-    constructor(configJsonData) {
-        if(!configJsonData) {
-            throw new Error('configJsonData is required')
+    constructor(config) {
+        if(!config) {
+            throw new Error('config is required')
         }
-        this.configJsonData = configJsonData
+        configJsonData = config
         this.regComponents()
         this.render()
     }
     regComponents() {
         const defining = {}
-        this.configJsonData &&
-            this.configJsonData.module.forEach((item) => {
-                const key = item.classId + '@' + this.configJsonData.version
+        configJsonData &&
+            configJsonData.module.forEach((item) => {
+                const key = item.classId + '@' + configJsonData.version
                 window[key] = defining[key] = function (moduleObject) {
                     // console.log("加载的组件：", moduleObject, item)
                     //把组件定义的属性返回给核心框架
@@ -31,7 +31,7 @@ export class VueRegister {
                         data() {
                             return {
                                 //这里使用本身自己定义的组件名称，从系统维护（moduleObject）取来的怕不准去
-                                componentName: item.className + '@' + this.configJsonData.className + '-' + this.configJsonData.version,
+                                componentName: item.className + '@' + configJsonData.className + '-' + configJsonData.version,
                                 moduleObject: moduleObject,
                                 //需要把默认值传递
                                 propData: moduleObject.props || {}
@@ -109,10 +109,10 @@ export class VueRegister {
     render() {
         setTimeout(function () {
             if (window.IDM && window.IDM.url.queryString('className')) {
-                this.configJsonData &&
-                    this.configJsonData.module.forEach((item) => {
+                configJsonData &&
+                    configJsonData.module.forEach((item) => {
                         if (item.className == window.IDM.url.queryString('className')) {
-                            window[item.classId + '@' + this.configJsonData.version].call(this, {
+                            window[item.classId + '@' + configJsonData.version].call(this, {
                                 id: 'module_demo'
                             })
                         }
