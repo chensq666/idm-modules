@@ -1,16 +1,19 @@
-import config from '../../../../public/static/config.json'
 import Vue from 'vue'
-
 export class VueRegister {
-    constructor() {
+    configJsonData = null
+    constructor(configJsonData) {
+        if(!configJsonData) {
+            throw new Error('configJsonData is required')
+        }
+        this.configJsonData = configJsonData
         this.regComponents()
         this.render()
     }
     regComponents() {
         const defining = {}
-        config &&
-            config.module.forEach((item) => {
-                const key = item.classId + '@' + config.version
+        this.configJsonData &&
+            this.configJsonData.module.forEach((item) => {
+                const key = item.classId + '@' + this.configJsonData.version
                 window[key] = defining[key] = function (moduleObject) {
                     // console.log("加载的组件：", moduleObject, item)
                     //把组件定义的属性返回给核心框架
@@ -28,7 +31,7 @@ export class VueRegister {
                         data() {
                             return {
                                 //这里使用本身自己定义的组件名称，从系统维护（moduleObject）取来的怕不准去
-                                componentName: item.className + '@' + config.className + '-' + config.version,
+                                componentName: item.className + '@' + this.configJsonData.className + '-' + this.configJsonData.version,
                                 moduleObject: moduleObject,
                                 //需要把默认值传递
                                 propData: moduleObject.props || {}
@@ -106,10 +109,10 @@ export class VueRegister {
     render() {
         setTimeout(function () {
             if (window.IDM && window.IDM.url.queryString('className')) {
-                config &&
-                    config.module.forEach((item) => {
+                this.configJsonData &&
+                    this.configJsonData.module.forEach((item) => {
                         if (item.className == window.IDM.url.queryString('className')) {
-                            window[item.classId + '@' + config.version].call(this, {
+                            window[item.classId + '@' + this.configJsonData.version].call(this, {
                                 id: 'module_demo'
                             })
                         }

@@ -1,9 +1,13 @@
 import { createElement, useEffect, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
-import config from '../../../../public/static/config.json'
 
 export class ReactRegister {
-    constructor() {
+    configJsonData = null
+    constructor(configJsonData) {
+        if(!configJsonData) {
+            throw new Error('configJsonData is required')
+        }
+        this.configJsonData = configJsonData
         this.comClassName = window.IDM && window.IDM.url.queryString('className')
         this.componentsMap = new Map()
 
@@ -27,9 +31,9 @@ export class ReactRegister {
 
     regComponents() {
         const defining = {}
-        config &&
-            config.module.forEach((item) => {
-                const key = item.classId + '@' + config.version
+        this.configJsonData &&
+            this.configJsonData.module.forEach((item) => {
+                const key = item.classId + '@' + this.configJsonData.version
                 window[key] = defining[key] = (moduleObject) => {
                     // 把组件定义的属性返回给核心框架
                     moduleObject.compositeAttr = item.compositeAttr
@@ -72,10 +76,10 @@ export class ReactRegister {
     render() {
         setTimeout(() => {
             if (this.comClassName) {
-                config &&
-                    config.module.forEach((item) => {
+                this.configJsonData &&
+                    this.configJsonData.module.forEach((item) => {
                         if (item.className === this.comClassName) {
-                            window[item.classId + '@' + config.version]({ id: 'module_demo' })
+                            window[item.classId + '@' + this.configJsonData.version]({ id: 'module_demo' })
                         }
                     })
             }
