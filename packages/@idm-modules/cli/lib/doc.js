@@ -40,12 +40,14 @@ function resolveComponentAttr(res, arr, level, index) {
 				res.push(multiple)
 			}
 			if(['radio', 'select'].includes(item.type)) {
-				let dictionaryArr = ['- 选项：\r'];
-				item.dictionary.map(it => {
-					dictionaryArr.push(`\t - ${it.label}【${it.value}】\r`)
-				})
-				const dictionary = dictionaryArr.join('')
-				res.push(dictionary)
+				if(item.dictionary) {
+					let dictionaryArr = ['- 选项：\r'];
+					item.dictionary.map(it => {
+						dictionaryArr.push(`\t - ${it.label}【${it.value}】\r`)
+					})
+					const dictionary = dictionaryArr.join('')
+					res.push(dictionary)
+				}
 			}
 		} else {
 			const str = `${level[index]} ${item.text}`;

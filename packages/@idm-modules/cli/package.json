@@ -1,6 +1,6 @@
 {
   "name": "@idm-modules/cli",
-  "version": "1.0.391",
+  "version": "1.0.392",
   "description": "Command line interface for rapid IDM development",
   "bin": {
     "idm": "bin/idm.js"
