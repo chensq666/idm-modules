@@ -83,7 +83,15 @@ module.exports = async (projectName, options) => {
         }
         const jsonConfigStr = JSON.stringify(jsonObj, null, 2) + os.EOL
         fs.writeFileSync(projectPackPath, jsonConfigStr)
-        IDMLog.consoleG(`Created done !`)
-        IDMLog.consoleG(`cd ${projectName}`)
+        IDMLog.consoleY(`----> cnpm i`)
+        spinner = ora('cnpm i ...').start();
+        spinner.color = 'yellow';
+        spinner.text = `cnpm i ...`;
+        spinner.start()
+        exec('cnpm i', {cwd: targetDir, encoding:'utf-8'}, (err, stdout, stderr) => {
+            if(err) throw err
+            spinner.stop()
+            IDMLog.consoleG(`cnpm i complete`)
+        });
     })
 }
