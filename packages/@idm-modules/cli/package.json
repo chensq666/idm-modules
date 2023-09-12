@@ -1,6 +1,6 @@
 {
   "name": "@idm-modules/cli",
-  "version": "1.0.4",
+  "version": "1.0.41",
   "description": "Command line interface for rapid IDM development",
   "bin": {
     "idm": "bin/idm.js"
@@ -20,7 +20,7 @@
     "idm",
     "cli"
   ],
-  "author": "Jack Chen",
+  "author": "chensq",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/vuejs/vue-cli/issues"
@@ -33,9 +33,7 @@
     "fs-extra": "^10.1.0",
     "inquirer": "^8.2.4",
     "ora": "^4.1.1",
-    "validate-npm-package-name": "^3.0.0"
-  },
-  "devDependencies": {
+    "validate-npm-package-name": "^3.0.0",
     "compressing": "^1.10.0"
   },
   "engines": {
