@@ -2,10 +2,8 @@ const fs = require('fs');
 const path = require('path')
 const inquirer = require('inquirer')
 const IDMLog = require('../utils/console')
+const { cwdJoin } = require('../utils/file')
 
-function cwdJoin(dir) {
-	return path.join(process.cwd(), dir)
-}
 function getComponentJson(className) {
 	const jsonPath = cwdJoin(`/public/static/attributes/${className}.json`)
 	if(!fs.existsSync(jsonPath)) {
@@ -14,7 +12,6 @@ function getComponentJson(className) {
 	return fs.readFileSync(jsonPath, 'utf-8')
 }
 function getDetailValue(defaultValue) {
-	
 	if(defaultValue === undefined || defaultValue === '') return '空'
 	if(['boolean', 'number', 'string'].includes(typeof defaultValue)) return '`' + defaultValue + '`'
 	// console.log(defaultValue)

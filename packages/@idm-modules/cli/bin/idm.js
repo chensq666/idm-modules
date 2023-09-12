@@ -4,6 +4,13 @@ const program = require('commander')
 
 program.version(`@idm/cli ${require('../package').version}`).usage('<command> [options]')
 
+// 打包zip文件
+const zipCli = program.command('zip');
+zipCli.description("auto zip dest bundle powered by idm-cli")
+    .action((className, options) => {
+        require('../lib/zip')(className, options)
+    })
+
 // 自动生成文档
 const docCli = program.command('doc <className>');
 docCli.description("auto generate a component's doc powered by idm-cli")
