@@ -5,10 +5,10 @@ const program = require('commander')
 program.version(`@idm/cli ${require('../package').version}`).usage('<command> [options]')
 
 // 打包zip文件
-const zipCli = program.command('zip');
+const zipCli = program.command('zip [packName]');
 zipCli.description("auto zip dest bundle powered by idm-cli")
-    .action((className, options) => {
-        require('../lib/zip')(className, options)
+    .action((packName, options) => {
+        require('../lib/zip')(packName, options)
     })
 
 // 自动生成文档

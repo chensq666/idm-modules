@@ -1,6 +1,6 @@
 {
   "name": "@idm-modules/cli",
-  "version": "1.0.41",
+  "version": "1.0.462",
   "description": "Command line interface for rapid IDM development",
   "bin": {
     "idm": "bin/idm.js"
@@ -29,12 +29,12 @@
     "alphabetjs": "^0.1.4",
     "chalk": "^4.1.2",
     "commander": "^7.2.0",
+    "compressing": "^1.10.0",
     "download-git-repo": "^3.0.2",
     "fs-extra": "^10.1.0",
     "inquirer": "^8.2.4",
     "ora": "^4.1.1",
-    "validate-npm-package-name": "^3.0.0",
-    "compressing": "^1.10.0"
+    "validate-npm-package-name": "^3.0.0"
   },
   "engines": {
     "node": "^12.0.0 || >= 14.0.0"

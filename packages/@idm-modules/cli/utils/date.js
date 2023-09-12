@@ -6,7 +6,7 @@ const timeFormat = () => {
     var hour = time.getHours() < 10 ? '0' + time.getHours() : time.getHours()
     var minute = time.getMinutes() <10 ? '0'+ time.getMinutes() : time.getMinutes()
     var second = time.getSeconds() <10 ? '0'+ time.getSeconds() : time.getSeconds()
-    let currentTime = `${year}-${month}-${day} ${hour}.${minute}.${second}`
+    let currentTime = `${year}-${month}-${day} ${hour}-${minute}-${second}`
     return currentTime
 }
 
