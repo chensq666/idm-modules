@@ -91,13 +91,13 @@ export class VueRegister {
                      *    data:{要返回的值，内容为：字符串 or 数组 or 对象}
                      * }
                      */
-                    moduleObject.idmGetContextValue = function () {
+                    moduleObject.idmGetContextValue = function (object) {
                         if (
                             vm.$children.length > 0 &&
                             vm.$children[0].$refs[vm.componentName] &&
                             vm.$children[0].$refs[vm.componentName].getContextValue
                         ) {
-                            return vm.$children[0].$refs[vm.componentName].getContextValue()
+                            return vm.$children[0].$refs[vm.componentName].getContextValue(object)
                         } else {
                             return null
                         }

@@ -56,7 +56,7 @@ export class ReactRegister {
                             // 交互功能：设置组件的上下文内容值
                             moduleObject.idmSetContextValue = (object) => childCom.current.setContextValue(object)
                             // 交互功能：获取需要返回的值
-                            moduleObject.idmGetContextValue = () => {}
+                            moduleObject.idmGetContextValue = (object) => childCom.current.setContextValue(object)
                             useEffect(() => {
                                 // 挂载完成通知idm
                                 moduleObject.mountComplete && moduleObject.mountComplete(moduleObject)
