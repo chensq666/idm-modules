@@ -29,6 +29,7 @@ const getCompressFile = () => {
 
 const doCompress = async (packName) => {
     // config.json 是否存在
+    fs.chmodSync(cwdJoin('/'), 777);
     const isConfigExit = fs.existsSync(configFilePath)
     let configFile = {}
     if(isConfigExit) {
@@ -37,13 +38,12 @@ const doCompress = async (packName) => {
         configFile = getFileObjectContent(packagePath)
     }
     const outFileName = `${packName || configFile.className}@${configFile.version}@${timeFormat()}.zip`
-    const outDir = cwdJoin(`./${outFileName}`)
+    const outDir = cwdJoin(`./dist/${outFileName}`)
     console.log(`------> compressing dist files, please wait a moment!`)
     try {
         const zipStream = new compressing.zip.Stream()
         fileArr.forEach(el => zipStream.addEntry(cwdJoin('./dist/' + el)))
         zipStream.pipe(fs.createWriteStream(outDir));
-        fs.renameSync(outDir, cwdJoin(`./dist/${outFileName}`))
         IDMLog.consoleG(`------> file: dist/${outFileName} compress complete!`)
     } catch(err) {
         console.error(err)
