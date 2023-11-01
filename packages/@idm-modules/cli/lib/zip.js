@@ -7,6 +7,7 @@ const { timeFormat } = require('../utils/date')
 const configFilePath = cwdJoin('./public/static/config.json')
 const packagePath = cwdJoin('./package.json')
 const distDir = cwdJoin('./dist')
+const mainJsTemplate = require('../utils/mainJsTemplate')
 let fileArr = []
 const getCompressFile = () => {
     fileArr = []
@@ -27,15 +28,33 @@ const getCompressFile = () => {
     }
 }
 
-const doCompress = async (packName) => {
-    // config.json 是否存在
+const doCompress = async (packName, options) => {
+    console.log(options)
     fs.chmodSync(cwdJoin('/'), 777);
+    // config.json 是否存在
     const isConfigExit = fs.existsSync(configFilePath)
     let configFile = {}
+    // 兼容idm-core
     if(isConfigExit) {
         configFile = getFileObjectContent(configFilePath)
     }else {
         configFile = getFileObjectContent(packagePath)
+    }
+
+    // 覆盖main选项
+    const mainJsPath = cwdJoin('./dist/static/main.js')
+    if((isConfigExit && !fs.existsSync(mainJsPath)) || options.main) {
+        const cssFileList = fs.readdirSync(cwdJoin('./dist/static/css')), jsFileList = fs.readdirSync(cwdJoin('./dist/static/js'))
+        const resourceObject = {js: {}}
+        resourceObject.css = cssFileList.filter(el => path.extname(el) === '.css').map(el => `css/${path.basename(el, '.css')}`)
+        jsFileList.forEach(el => {
+            if(path.extname(el)==='.js') {
+                resourceObject.js[el] = `js/${ path.basename(el, '.js')}`
+            }
+        })
+        const mainStr = mainJsTemplate(resourceObject)
+        fs.writeFileSync(mainJsPath, mainStr, 'utf8')
+        IDMLog.consoleG(`------> replaced main.js!`)
     }
     const outFileName = `${packName || configFile.className}@${configFile.version}@${timeFormat()}.zip`
     const outDir = cwdJoin(`./dist/${outFileName}`)
@@ -53,5 +72,5 @@ const doCompress = async (packName) => {
 
 module.exports = async (packName, options) => {
     getCompressFile()
-    doCompress(packName)
+    doCompress(packName, options)
 }
