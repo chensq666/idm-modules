@@ -1,15 +1,15 @@
 import Vue from 'vue'
 let configJsonData = null
 export class VueRegister {
-    constructor(config) {
+    constructor(config, vueConfig = {}) {
         if(!config) {
             throw new Error('config is required')
         }
         configJsonData = config
-        this.regComponents()
+        this.regComponents(vueConfig)
         this.render()
     }
-    regComponents() {
+    regComponents(vueConfig) {
         const defining = {}
         configJsonData &&
             configJsonData.module.forEach((item) => {
@@ -27,6 +27,7 @@ export class VueRegister {
                         moduleObject.innerComName = item.innerComName
                     }
                     var vm = new Vue({
+                        ...vueConfig,
                         render: (h) => h(window[`${process.env.CodeVar}`]),
                         data() {
                             return {
