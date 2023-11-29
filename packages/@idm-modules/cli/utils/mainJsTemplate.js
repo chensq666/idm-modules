@@ -19,6 +19,14 @@ module.exports = (resourceObject = {}) => {
         }
         return jsPath.substring(0, jsPath.lastIndexOf('/') + 1);
     }(),
+    getMainPath = function(){
+        var head = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+        var js = head.getElementsByTagName("script"), jsPath = js[js.length - 1].src;
+        console.log(jsPath);
+        jsPath = document.currentScript.src||jsPath;
+        return jsPath;
+    }(),
+
     //异常提示
     error = function(msg){
         window.console && console.error && console.error('IDM hint: ' + msg);
@@ -31,17 +39,22 @@ module.exports = (resourceObject = {}) => {
     Object.keys(resource.js).forEach(function(key){
         jsArray.push(key)
     });
-    loadjs(jsArray,function(){
-        //js组件加载完成
-        console.log("加载完成")
-        if(lastModule&&lastModule.callback){
-            lastModule.callback.call(this,lastModule)
-        }
-    });
-    resource.css&&resource.css.forEach(function(item){
-        var url = getPath + item + '.css';
-        loadcss(url,false);
-    })
+
+    if(IDM.module.asyncModuleLoadHandle&&IDM.env_develop_mode===false){
+        IDM.module.asyncModuleLoadHandle(getMainPath,resource);
+    }else{
+        loadjs(jsArray,function(){
+            //js组件加载完成
+            console.log("加载完成")
+            if(lastModule&&lastModule.callback){
+                lastModule.callback.call(this,lastModule)
+            }
+        });
+        resource.css&&resource.css.forEach(function(item){
+            var url = getPath + item + '.css';
+            loadcss(url,false);
+        })
+    }
     /**
      * 加载js
      * @param {*} apps
