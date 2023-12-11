@@ -7,6 +7,7 @@ const { timeFormat } = require('../utils/date')
 const configFilePath = cwdJoin('./public/static/config.json')
 const packagePath = cwdJoin('./package.json')
 const distDir = cwdJoin('./dist')
+const { printParent } = require('./parten.js')
 const mainJsTemplate = require('../utils/mainJsTemplate')
 let fileArr = []
 const getCompressFile = () => {
@@ -17,6 +18,7 @@ const getCompressFile = () => {
             Object.values(onlineConfig).forEach(el => {
                 fileArr.push(...el)
             })
+            fileArr.push('onlineupgrade.json')
         }else {
             const list = fs.readdirSync(distDir)
             list.forEach(el => {
@@ -56,7 +58,7 @@ const doCompress = async (packName, options) => {
         fs.writeFileSync(mainJsPath, mainStr, 'utf8')
         IDMLog.consoleG(`------> replaced main.js!`)
     }
-    const outFileName = `${packName || configFile.className}@${configFile.version}@${timeFormat()}.zip`
+    const outFileName = `${packName || configFile.className || configFile.name}@${configFile.version}@${timeFormat()}.zip`
     const outDir = cwdJoin(`./dist/${outFileName}`)
     console.log(`------> compressing dist files, please wait a moment!`)
     try {
@@ -64,6 +66,7 @@ const doCompress = async (packName, options) => {
         fileArr.forEach(el => zipStream.addEntry(cwdJoin('./dist/' + el)))
         zipStream.pipe(fs.createWriteStream(outDir));
         IDMLog.consoleG(`------> file: dist/${outFileName} compress complete!`)
+        printParent()
     } catch(err) {
         console.error(err)
     }
