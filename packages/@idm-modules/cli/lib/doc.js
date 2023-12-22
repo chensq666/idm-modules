@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path')
 const inquirer = require('inquirer')
 const IDMLog = require('../utils/console')
 const { cwdJoin } = require('../utils/file')

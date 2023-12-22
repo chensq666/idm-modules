@@ -1,16 +1,13 @@
 const chalk = require('chalk')
 
-class IDMLog {
-
-    static error(text) {
+const IDMLog = {
+    error(text) {
         console.error(chalk.red(text))
-    }
-
-    static consoleY(text) {
+    },
+    consoleY(text) {
         console.log(chalk.yellow(text))
-    }
-
-    static consoleG(text) {
+    },
+    consoleG(text) {
         console.log(chalk.green(text))
     }
 }
