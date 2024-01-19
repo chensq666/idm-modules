@@ -12,8 +12,8 @@ const exec = require('child_process').exec
 const ora = require('ora')
 const { printParent } = require('./parten')
 const templateUrl = {
-    vue: 'github:yunit-code/idm-module-vue',
-    react: 'github:web-csq/idm-module-react'
+    vue: 'direct:https://gitee.com/chensq666/idm-module-vue.git#main',
+    react: 'direct:https://gitee.com/chensq666/idm-module-react.git'
 }
 module.exports = async (projectName, options) => {
     const cwd = options.cwd || process.cwd()
@@ -56,8 +56,12 @@ module.exports = async (projectName, options) => {
     spinner.color = 'yellow';
 	spinner.text = `Downloading ...`;
     spinner.start()
-    download(templateUrl[answer1.scaffold], targetDir, { clone: false }, (err) => {
-        if(err) throw err
+    download(templateUrl[answer1.scaffold], targetDir, { clone: true }, (err) => {
+        if(err) {
+            fs.unlinkSync(targetDir)
+            console.log(err)
+            process.exit(1)
+        }
         spinner.stop()
         IDMLog.consoleG('Template has download success !')
         const projectPackPath = path.resolve(targetDir + '/package.json')
