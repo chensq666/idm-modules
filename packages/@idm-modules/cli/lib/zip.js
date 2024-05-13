@@ -9,6 +9,7 @@ const packagePath = cwdJoin('./package.json')
 const distDir = cwdJoin('./dist')
 const { printParent } = require('./parten.js')
 const mainJsTemplate = require('../utils/mainJsTemplate')
+const mainJsTemplateLocal = require('../utils/mainJsTemplateLocal')
 let fileArr = []
 const getCompressFile = () => {
     fileArr = []
@@ -45,7 +46,7 @@ const doCompress = async (packName, options) => {
 
     // 覆盖main选项
     const mainJsPath = cwdJoin('./dist/static/main.js')
-    if((isConfigExit && !fs.existsSync(mainJsPath)) || options.main) {
+    if((isConfigExit && !fs.existsSync(mainJsPath)) || options.main || options.mainLocal) {
         const cssFileList = fs.readdirSync(cwdJoin('./dist/static/css')), jsFileList = fs.readdirSync(cwdJoin('./dist/static/js'))
         const resourceObject = {js: {}}
         resourceObject.css = cssFileList.filter(el => path.extname(el) === '.css').map(el => `css/${path.basename(el, '.css')}`)
@@ -54,7 +55,13 @@ const doCompress = async (packName, options) => {
                 resourceObject.js[el] = `js/${ path.basename(el, '.js')}`
             }
         })
-        const mainStr = mainJsTemplate(resourceObject)
+        if(options.mainLocal) {
+            resourceObject.js = jsFileList.map(js =>  `js/${ path.basename(js, '.js')}`)
+        }
+        let mainStr = mainJsTemplate(resourceObject)
+        if(options.mainLocal) {
+            mainStr = mainJsTemplateLocal(resourceObject, configFile.className, Date.now())
+        }
         fs.writeFileSync(mainJsPath, mainStr, 'utf8')
         IDMLog.consoleG(`------> replaced main.js!`)
     }
