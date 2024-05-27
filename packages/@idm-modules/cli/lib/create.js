@@ -79,8 +79,8 @@ module.exports = async (projectName, options) => {
                     ]
             }
             addPlugin({
+                scaffold: answer1.scaffold,
                 targetDir,
-                mainFileName: answer1.scaffold === 'vue' ? 'main.js': 'index.ts',
                 pluginName: answer2.ui
             })
             IDMLog.consoleG(`Plugin add success !`)

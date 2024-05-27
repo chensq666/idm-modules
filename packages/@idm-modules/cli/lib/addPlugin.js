@@ -10,9 +10,17 @@ const copyPluginFile = ({ pluginName, targetDir }) => {
 module.exports = {
     addPlugin(options) {
         copyPluginFile(options)
-        const mainFilePath = path.resolve(options.targetDir+ '/src/' + options.mainFileName)
+        const mainFileName = options.scaffold === 'vue' ? 'main.js': 'index.ts'
+        const mainFilePath = path.resolve(options.targetDir+ '/src/' + mainFileName)
         let mainFile = fs.readFileSync(mainFilePath, 'utf8')
         const pluginImport = `import './plugins/${options.pluginName}.js'\r\n`
         fs.writeFileSync(mainFilePath, pluginImport + mainFile, 'utf8')
+        if(options.scaffold === 'vue') {
+            const mainStaticFilePath = path.resolve(options.targetDir+ '/src/mainStatic.js')
+            if(fs.existsSync(mainStaticFilePath)) {
+                let mainStaticFile = fs.readFileSync(mainStaticFilePath, 'utf8')
+                fs.writeFileSync(mainStaticFilePath, pluginImport + mainStaticFile, 'utf8')
+            }
+        }
     }
 }
