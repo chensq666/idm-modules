@@ -17,7 +17,9 @@ const getCompressFile = () => {
         if(fs.existsSync(cwdJoin('./dist/onlineupgrade.json'))) {
             const onlineConfig = getFileObjectContent(cwdJoin('./dist/onlineupgrade.json'))
             Object.values(onlineConfig).forEach(el => {
-                fileArr.push(...el)
+                if(Array.isArray(el)) {
+                    fileArr.push(...el)
+                }
             })
             fileArr.push('onlineupgrade.json')
         }else {
