@@ -4,7 +4,6 @@ const path = require('path')
 const copyPluginFile = ({ pluginName, targetDir }) => {
     const pluginPath = path.resolve(targetDir + '/src/plugins')
     const cPluginPath = path.resolve(__dirname, '../frameworks/' + pluginName + '/plugins')
-   
     fs.copySync(cPluginPath, pluginPath)
 }
 module.exports = {
